@@ -1,0 +1,25 @@
+{
+  "name": "pixi-editor",
+  "main": "pixi-editor.js",
+  "version": "0.0.1",
+  "authors": [
+    "sergey <serge.dmitriev@gmail.com>"
+  ],
+  "description": "Pixi.js based simple image editor",
+  "keywords": [
+    "pixi.js",
+    "image",
+    "editor"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "pixi.js": "~1.6.1"
+  }
+}
