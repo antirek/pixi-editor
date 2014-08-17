@@ -72,6 +72,11 @@ var Canvas = function(id, width, height){
 		lineDrawingColor = color;
 	}
 
+	var getImage = function(){
+		renderer.render(stage);
+		return renderer.view.toDataURL();		
+	}
+
 	var __construct = function(id, width, height) {
         stage = new PIXI.Stage(0x97c56e, true);
         renderer = new PIXI.autoDetectRenderer(width, height, null, true, true);
@@ -92,6 +97,7 @@ var Canvas = function(id, width, height){
 		disableDrawMode: disableDrawMode,
 		setLineWidth: setLineWidth,
 		setLineColor: setLineColor,
+		getImage: getImage,
 	};
 };
 
@@ -120,6 +126,9 @@ var Menu = function (id) {
 			$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
 			$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
 			]),
+		$('<button />', {text: 'Save', id: 'save'})
+			.addClass('btn btn-default')			
+			.attr('type','button'),
 	];
 
 	var menu = $('<div />', {id:'submenu1'}).addClass('btn-group').append(buttons);
@@ -177,6 +186,12 @@ var editor = function(id, width, height){
 
 		$("#change10px").click(function(){
 			canvas2.setLineWidth('10');
+		});
+
+		$("#save").click(function(){
+			var data = canvas2.getImage();
+			var win = window.open();
+			win.document.write("<img src='" + data + "'/>");			
 		});
 
 	}();
