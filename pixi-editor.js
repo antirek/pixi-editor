@@ -1,5 +1,5 @@
 
-var editor = function(id, width, height){
+var Canvas = function(id, width, height){
 	
 	var stage = null;
 	var renderer = null;
@@ -94,5 +94,94 @@ var editor = function(id, width, height){
 		setLineColor: setLineColor,
 	};
 };
+
+var Menu = function (id) {
+
+	var buttons = [
+		$('<button />')
+			.addClass('btn btn-default')
+			.prepend([
+				$('<span />').addClass('glyphicon glyphicon-pencil')
+				])
+			.attr('type','button'),
+
+		$('<button />')
+			.addClass('btn btn-default dropdown-toggle')
+			.attr('data-toggle', 'dropdown')
+			.attr('type', 'button')
+			.append([
+				$('<span />').addClass('caret'),
+				$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
+			]),
+		
+		$('<ul />', {id: 'main'}).addClass('dropdown-menu').append([
+			$('<li />', {text: 'change line width'}).addClass('dropdown-header'),
+			$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
+			$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
+			$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
+			]),
+	];
+
+	var menu = $('<div />', {id:'submenu1'}).addClass('btn-group').append(buttons);
+
+	var _construct = function(id){
+		$('#view').prepend(menu);
+	}(id);
+
+}
+
+
+var editor = function(id, width, height){
+
+	var menu_params = {
+		width: '100%',
+		height: '40'
+	}
+
+	var canvas_params = {
+		width: width,
+		height: height - menu_params.height
+	} 
+
+	var canvas_id = id + '_canvas';
+
+	$('#'+id).append($('<div />',{id: canvas_id}));
+
+	var canvas2 = new Canvas(canvas_id, canvas_params.width, canvas_params.height);
+	canvas2.enableDrawMode();
+	
+
+	var menu = new Menu(id);
+
+
+
+	var  initButtons = function(){
+
+		$("#drawButton").click(function(){
+			if($(this).hasClass('active')){
+				canvas2.disableDrawMode();
+				$(this).removeClass('active');
+			}else{
+				canvas2.enableDrawMode();
+				$(this).addClass('active');
+			}
+		})
+
+		$("#change3px").click(function(){
+			canvas2.setLineWidth('3');
+		});
+
+		$("#change5px").click(function(){
+			canvas2.setLineWidth('5');
+		});
+
+		$("#change10px").click(function(){
+			canvas2.setLineWidth('10');
+		});
+
+	}();
+
+}
+
 
 

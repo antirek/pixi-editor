@@ -1,6 +1,9 @@
+<!DOCTYPE html>
 <html>
 	<head>
-		<link href="lib/bootstrap/dist/css/bootstrap.css" type="text/css" />
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css"  />
+
+		<!-- link rel="stylesheet" href="lib/bootswatch/readable/bootstrap.css"  //-->
 		
 		<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
 		<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -10,15 +13,11 @@
 		
 		<script type="text/javascript">
 
-			var editor1 = null;
-
 			$(function(){
 
-				editor1 = new editor('view', 600, 300);
-				editor1.enableDrawMode();
-
+				var editor1 = new editor('view', 600, 300);
+				
 			});
-
 
 		</script>
 	</head>
@@ -27,6 +26,8 @@
 	<body>
 
 		<div id="view"></div>
+
+
 
 	</body>
 </html>
