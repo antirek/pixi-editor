@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<link href="lib/bootstrap/dist/css/bootstrap.css" type="text/css" />
+		
+		<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+		<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+		<script type="text/javascript" src="lib/pixi.js/bin/pixi.dev.js"></script>
+
+		<script type="text/javascript" src="pixi-editor.js"></script>
+		
+		<script type="text/javascript">
+
+			var editor1 = null;
+
+			$(function(){
+
+				editor1 = new editor('view', 600, 300);
+				editor1.enableDrawMode();
+
+			});
+
+
+		</script>
+	</head>
+
+
+	<body>
+
+		<div id="view"></div>
+
+	</body>
+</html>
