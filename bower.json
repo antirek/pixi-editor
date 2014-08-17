@@ -20,6 +20,7 @@
     "tests"
   ],
   "dependencies": {
-    "pixi.js": "~1.6.1"
+    "pixi.js": "~1.6.1",
+    "bootstrap": "~3.2.0"
   }
 }
