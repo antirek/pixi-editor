@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "pixi.js": "~1.6.1",
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "jquery": "~2.1.1"
   }
 }
