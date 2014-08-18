@@ -121,11 +121,12 @@ var Menu = function (id) {
 					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
 				]),
 			
-			$('<ul />', {id: 'main'}).addClass('dropdown-menu').append([
+			$('<ul />', {id: 'group-edit-dropdown'}).addClass('dropdown-menu').append([
 				$('<li />', {text: 'change line width'}).addClass('dropdown-header'),
 				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
 				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
 				$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
+				$('<li />').addClass('divider'),
 				$('<li />', {text: 'change line color'}).addClass('dropdown-header'),
 				$('<li />').append(
 					$('<span/>')
@@ -134,8 +135,7 @@ var Menu = function (id) {
 							$('<input/>', {id: 'changeColorInput'})
 							.attr('style', 'display:none;'))
 					),
-				]),
-			
+				]),			
 			],
 
 		save: [
@@ -158,11 +158,11 @@ var Menu = function (id) {
 		};
 
 	var menu = [];
-	menu.push($('<div />', {id:'submenu1'}).addClass('btn-group').append(buttons.edit));
+	menu.push($('<div />', {id:'group-edit'}).addClass('btn-group').append(buttons.edit));
 	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'submenu2'}).addClass('btn-group').append(buttons.save));
+	menu.push($('<div />', {id:'group-save'}).addClass('btn-group').append(buttons.save));
 	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'submenu2'}).addClass('btn-group').append(buttons.text));
+	menu.push($('<div />', {id:'group-text'}).addClass('btn-group').append(buttons.text));
 
 
 	var _construct = function(id){
@@ -222,8 +222,7 @@ var editor = function(id, width, height){
 
 		$("#save").click(function(){
 			var data = canvas2.getImage();
-			var win = window.open();
-			win.document.write("<img src='" + data + "'/>");			
+			var win = window.open(data);
 		});
 
 		$("#changeColorInput").spectrum({
@@ -235,7 +234,7 @@ var editor = function(id, width, height){
 	    	],
 	   		change: function(color) {
 	 	   		canvas2.setLineColor(color.toHexString().replace('#','0x')); // #ff0000
-	 	   		//$('#main').dropdown('toggle');
+	 	   		$('#group-edit-dropdown').dropdown('toggle');
 			}
 		});
 
