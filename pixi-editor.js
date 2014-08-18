@@ -14,6 +14,7 @@ var Canvas = function(id, width, height){
 	var lineWidth = '10';
 	var lineColor = '0xffd920';
 	var lineDrawingColor = '0xffd920';
+	var lineAlpha = '1';
 	
 	var enableDrawMode = function(){
 		
@@ -41,7 +42,7 @@ var Canvas = function(id, width, height){
 
 		stage.mouseup = stage.touchend = function(e){
 			drawing = false;
-			graphics.lineStyle(lineWidth, lineColor, 1);
+			graphics.lineStyle(lineWidth, lineColor, lineAlpha);
 			graphics.drawPath(path);
 			path = [];
 		}
@@ -56,7 +57,7 @@ var Canvas = function(id, width, height){
 	var animate = function() {
 
 	    liveGraphics.clear();
-		liveGraphics.lineStyle(lineWidth, lineDrawingColor, 1);
+		liveGraphics.lineStyle(lineWidth, lineDrawingColor, lineAlpha);
 		liveGraphics.drawPath(path);
 	    
 	    renderer.render(stage);
@@ -70,6 +71,10 @@ var Canvas = function(id, width, height){
 	var setLineColor = function(color){
 		lineColor = color;
 		lineDrawingColor = color;
+	}
+
+	var setLineAlpha = function(alpha){
+		lineAlpha = alpha;
 	}
 
 	var getImage = function(){
@@ -97,6 +102,7 @@ var Canvas = function(id, width, height){
 		disableDrawMode: disableDrawMode,
 		setLineWidth: setLineWidth,
 		setLineColor: setLineColor,
+		setLineAlpha: setLineAlpha,
 		getImage: getImage,
 	};
 };
@@ -122,12 +128,12 @@ var Menu = function (id) {
 				]),
 			
 			$('<ul />', {id: 'group-edit-dropdown'}).addClass('dropdown-menu').append([
-				$('<li />', {text: 'change line width'}).addClass('dropdown-header'),
+				$('<li />', {text: 'Width'}).addClass('dropdown-header'),
 				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
 				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
 				$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
 				$('<li />').addClass('divider'),
-				$('<li />', {text: 'change line color'}).addClass('dropdown-header'),
+				$('<li />', {text: 'Color'}).addClass('dropdown-header'),
 				$('<li />').append(
 					$('<span/>')
 						.addClass('col-md-offset-2')
@@ -135,6 +141,11 @@ var Menu = function (id) {
 							$('<input/>', {id: 'changeColorInput'})
 							.attr('style', 'display:none;'))
 					),
+				$('<li />').addClass('divider'),
+				$('<li />', {text: 'Alpha'}).addClass('dropdown-header'),
+				$('<li />').append($('<a/>', {text: '0.2', id: 'change02'})),
+				$('<li />').append($('<a/>', {text: '0.5', id: 'change05'})),
+				$('<li />').append($('<a/>', {text: '1', id: 'change1'})),
 				]),			
 			],
 
@@ -145,24 +156,14 @@ var Menu = function (id) {
 					$('<span />').addClass('glyphicon glyphicon-save')
 					])			
 				.attr('type','button'),
-			],
-
-		text: [
-			$('<button />', {id: 'text'})
-				.addClass('btn btn-default')
-				.prepend([
-					$('<span />').addClass('glyphicon glyphicon-font')
-					])			
-				.attr('type','button'),
-			]
+			],		
 		};
 
 	var menu = [];
 	menu.push($('<div />', {id:'group-edit'}).addClass('btn-group').append(buttons.edit));
 	menu.push('&nbsp;');
 	menu.push($('<div />', {id:'group-save'}).addClass('btn-group').append(buttons.save));
-	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'group-text'}).addClass('btn-group').append(buttons.text));
+	
 
 
 	var _construct = function(id){
@@ -218,6 +219,18 @@ var editor = function(id, width, height){
 
 		$("#change10px").click(function(){
 			canvas2.setLineWidth('10');
+		});
+
+		$("#change02").click(function(){
+			canvas2.setLineAlpha('0.2');
+		});
+
+		$("#change05").click(function(){
+			canvas2.setLineAlpha('0.5');
+		});
+
+		$("#change1").click(function(){
+			canvas2.setLineAlpha('1');
 		});
 
 		$("#save").click(function(){
