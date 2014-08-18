@@ -103,35 +103,67 @@ var Canvas = function(id, width, height){
 
 var Menu = function (id) {
 
-	var buttons = [
-		$('<button />')
-			.addClass('btn btn-default')
-			.prepend([
-				$('<span />').addClass('glyphicon glyphicon-pencil')
-				])
-			.attr('type','button'),
+	var buttons = {
+		edit:[
+			$('<button />')
+				.addClass('btn btn-default')
+				.prepend([
+					$('<span />').addClass('glyphicon glyphicon-pencil')
+					])
+				.attr('type','button'),
 
-		$('<button />')
-			.addClass('btn btn-default dropdown-toggle')
-			.attr('data-toggle', 'dropdown')
-			.attr('type', 'button')
-			.append([
-				$('<span />').addClass('caret'),
-				$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
-			]),
-		
-		$('<ul />', {id: 'main'}).addClass('dropdown-menu').append([
-			$('<li />', {text: 'change line width'}).addClass('dropdown-header'),
-			$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
-			$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
-			$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
-			]),
-		$('<button />', {text: 'Save', id: 'save'})
-			.addClass('btn btn-default')			
-			.attr('type','button'),
-	];
+			$('<button />')
+				.addClass('btn btn-default dropdown-toggle')
+				.attr('data-toggle', 'dropdown')
+				.attr('type', 'button')
+				.append([
+					$('<span />').addClass('caret'),
+					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
+				]),
+			
+			$('<ul />', {id: 'main'}).addClass('dropdown-menu').append([
+				$('<li />', {text: 'change line width'}).addClass('dropdown-header'),
+				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
+				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
+				$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
+				$('<li />', {text: 'change line color'}).addClass('dropdown-header'),
+				$('<li />').append(
+					$('<span/>')
+						.addClass('col-md-offset-2')
+						.append(
+							$('<input/>', {id: 'changeColorInput'})
+							.attr('style', 'display:none;'))
+					),
+				]),
+			
+			],
 
-	var menu = $('<div />', {id:'submenu1'}).addClass('btn-group').append(buttons);
+		save: [
+			$('<button />', {id: 'save'})
+				.addClass('btn btn-default')
+				.prepend([
+					$('<span />').addClass('glyphicon glyphicon-save')
+					])			
+				.attr('type','button'),
+			],
+
+		text: [
+			$('<button />', {id: 'text'})
+				.addClass('btn btn-default')
+				.prepend([
+					$('<span />').addClass('glyphicon glyphicon-font')
+					])			
+				.attr('type','button'),
+			]
+		};
+
+	var menu = [];
+	menu.push($('<div />', {id:'submenu1'}).addClass('btn-group').append(buttons.edit));
+	menu.push('&nbsp;');
+	menu.push($('<div />', {id:'submenu2'}).addClass('btn-group').append(buttons.save));
+	menu.push('&nbsp;');
+	menu.push($('<div />', {id:'submenu2'}).addClass('btn-group').append(buttons.text));
+
 
 	var _construct = function(id){
 		$('#view').prepend(menu);
@@ -192,6 +224,19 @@ var editor = function(id, width, height){
 			var data = canvas2.getImage();
 			var win = window.open();
 			win.document.write("<img src='" + data + "'/>");			
+		});
+
+		$("#changeColorInput").spectrum({
+	   		color: "#ffd920",
+	   		showPalette: true,
+	    	palette: [
+	       		['black', 'white', 'red'],
+	        	['green', 'yellow', 'purple']
+	    	],
+	   		change: function(color) {
+	 	   		canvas2.setLineColor(color.toHexString().replace('#','0x')); // #ff0000
+	 	   		//$('#main').dropdown('toggle');
+			}
 		});
 
 	}();
