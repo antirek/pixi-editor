@@ -288,7 +288,7 @@ var editor = function(id, width, height){
 
 	}();
 
+	return {
+		getImage: canvas2.getImage
+	}
 }
-
-
-
