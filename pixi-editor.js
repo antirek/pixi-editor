@@ -86,6 +86,10 @@ var Canvas = function(id, width, height){
 		return renderer.view.toDataURL();		
 	}
 
+	var clear = function(){
+		graphics.clear();
+	}
+
 	var __construct = function(id, width, height) {
         stage = new PIXI.Stage(0x97c56e, true);
         
@@ -113,21 +117,15 @@ var Canvas = function(id, width, height){
 		setLineAlpha: setLineAlpha,
 		getImage: getImage,
 		stage: stage,
+		clear: clear,
 	};
 };
 
 var Menu = function (id) {
 
 	var buttons = {
-		edit:[
-			$('<button />')
-				.addClass('btn btn-default')
-				.prepend([
-					$('<span />').addClass('glyphicon glyphicon-pencil')
-					])
-				.attr('type','button'),
-
-			$('<button />')
+		line:[
+			$('<button />', {text: 'line '})
 				.addClass('btn btn-default dropdown-toggle')
 				.attr('data-toggle', 'dropdown')
 				.attr('type', 'button')
@@ -136,7 +134,7 @@ var Menu = function (id) {
 					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
 				]),
 			
-			$('<ul />', {id: 'group-edit-dropdown'}).addClass('dropdown-menu').append([
+			$('<ul />', {id: 'group-line-dropdown'}).addClass('dropdown-menu').append([
 				$('<li />', {text: 'Width'}).addClass('dropdown-header'),
 				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
 				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
@@ -157,8 +155,20 @@ var Menu = function (id) {
 				$('<li />').append($('<a/>', {text: '0.2', id: 'change02'})),
 				$('<li />').append($('<a/>', {text: '0.5', id: 'change05'})),
 				$('<li />').append($('<a/>', {text: '1', id: 'change1'})),
+				
+				]),			
+			],
 
-				$('<li />').addClass('divider'),
+		background: [
+			$('<button />', {text: 'background '})
+				.addClass('btn btn-default dropdown-toggle')
+				.attr('data-toggle', 'dropdown')
+				.attr('type', 'button')
+				.append([
+					$('<span />').addClass('caret'),
+					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
+				]),
+			$('<ul />', {id: 'group-background-dropdown'}).addClass('dropdown-menu').append([
 				$('<li />', {text: 'Background Color'}).addClass('dropdown-header'),
 				$('<li />').append(
 					$('<span/>')
@@ -167,24 +177,31 @@ var Menu = function (id) {
 							$('<input/>', {id: 'changeBackgroundColorInput'})
 							.attr('style', 'display:none;'))
 					),
-				]),			
+				]),
 			],
 
+
 		save: [
-			$('<button />', {id: 'save'})
+			$('<button />', {id: 'save', text: 'save'})
 				.addClass('btn btn-default')
-				.prepend([
-					$('<span />').addClass('glyphicon glyphicon-save')
-					])			
 				.attr('type','button'),
-			],		
+			],
+
+		clear: [
+			$('<button />', {id: 'clear', text: 'clear'})
+				.addClass('btn btn-default')
+				.attr('type','button'),
+			],	
 		};
 
 	var menu = [];
-	menu.push($('<div />', {id:'group-edit'}).addClass('btn-group').append(buttons.edit));
+	menu.push($('<div />', {id:'group-line'}).addClass('btn-group').append(buttons.line));
+	menu.push('&nbsp;');
+	menu.push($('<div />', {id:'group-background'}).addClass('btn-group').append(buttons.background));
 	menu.push('&nbsp;');
 	menu.push($('<div />', {id:'group-save'}).addClass('btn-group').append(buttons.save));
-	
+	menu.push('&nbsp;');
+	menu.push($('<div />', {id:'group-clear'}).addClass('btn-group').append(buttons.clear));
 
 
 	var _construct = function(id){
@@ -258,6 +275,10 @@ var editor = function(id, width, height){
 			var win = window.open(data);
 		});
 
+		$("#clear").click(function(){
+			canvas2.clear();
+		});
+
 
 		$("#changeColorInput").spectrum({
 	   		color: "#ffd920",
@@ -268,7 +289,7 @@ var editor = function(id, width, height){
 	    	],
 	   		change: function(color) {
 	 	   		canvas2.setLineColor(color.toHexString().replace('#','0x')); // #ff0000
-	 	   		$('#group-edit-dropdown').dropdown('toggle');
+	 	   		$('#group-line-dropdown').dropdown('toggle');
 			}
 		});
 
@@ -282,7 +303,7 @@ var editor = function(id, width, height){
 	    	],
 	   		change: function(color) {
 	 	   		canvas2.setBackgroundColor(color.toHexString().replace('#','0x')); // #ff0000
-	 	   		$('#group-edit-dropdown').dropdown('toggle');
+	 	   		$('#group-background-dropdown').dropdown('toggle');
 			}
 		});
 
