@@ -68,9 +68,13 @@ var Canvas = function(id, width, height){
 		lineWidth = width;
 	}
 
+	var setBackgroundColor = function(color){
+		stage.setBackgroundColor(color);
+	}
+
 	var setLineColor = function(color){
 		lineColor = color;
-		lineDrawingColor = color;
+		lineDrawingColor = color;		
 	}
 
 	var setLineAlpha = function(alpha){
@@ -84,14 +88,17 @@ var Canvas = function(id, width, height){
 
 	var __construct = function(id, width, height) {
         stage = new PIXI.Stage(0x97c56e, true);
-        renderer = new PIXI.autoDetectRenderer(width, height, null, true, true);
-
+        
+        renderer = new PIXI.autoDetectRenderer(width, height, null, false, true);
+        
+        stage.transparent = true;
         document.getElementById(id).appendChild(renderer.view);
         renderer.view.style.position = "relative";
         renderer.render(stage); 
 
         stage.addChild(graphics);
 		stage.addChild(liveGraphics);
+
 
 		animate();
 
@@ -101,9 +108,11 @@ var Canvas = function(id, width, height){
 		enableDrawMode: enableDrawMode,
 		disableDrawMode: disableDrawMode,
 		setLineWidth: setLineWidth,
+		setBackgroundColor: setBackgroundColor,
 		setLineColor: setLineColor,
 		setLineAlpha: setLineAlpha,
 		getImage: getImage,
+		stage: stage,
 	};
 };
 
@@ -132,6 +141,7 @@ var Menu = function (id) {
 				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
 				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
 				$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
+				
 				$('<li />').addClass('divider'),
 				$('<li />', {text: 'Color'}).addClass('dropdown-header'),
 				$('<li />').append(
@@ -141,11 +151,22 @@ var Menu = function (id) {
 							$('<input/>', {id: 'changeColorInput'})
 							.attr('style', 'display:none;'))
 					),
+				
 				$('<li />').addClass('divider'),
 				$('<li />', {text: 'Alpha'}).addClass('dropdown-header'),
 				$('<li />').append($('<a/>', {text: '0.2', id: 'change02'})),
 				$('<li />').append($('<a/>', {text: '0.5', id: 'change05'})),
 				$('<li />').append($('<a/>', {text: '1', id: 'change1'})),
+
+				$('<li />').addClass('divider'),
+				$('<li />', {text: 'Background Color'}).addClass('dropdown-header'),
+				$('<li />').append(
+					$('<span/>')
+						.addClass('col-md-offset-2')
+						.append(
+							$('<input/>', {id: 'changeBackgroundColorInput'})
+							.attr('style', 'display:none;'))
+					),
 				]),			
 			],
 
@@ -196,7 +217,6 @@ var editor = function(id, width, height){
 	var menu = new Menu(id);
 
 
-
 	var  initButtons = function(){
 
 		$("#drawButton").click(function(){
@@ -238,6 +258,7 @@ var editor = function(id, width, height){
 			var win = window.open(data);
 		});
 
+
 		$("#changeColorInput").spectrum({
 	   		color: "#ffd920",
 	   		showPalette: true,
@@ -247,6 +268,20 @@ var editor = function(id, width, height){
 	    	],
 	   		change: function(color) {
 	 	   		canvas2.setLineColor(color.toHexString().replace('#','0x')); // #ff0000
+	 	   		$('#group-edit-dropdown').dropdown('toggle');
+			}
+		});
+
+
+		$("#changeBackgroundColorInput").spectrum({
+	   		color: "#ffd920",
+	   		showPalette: true,
+	    	palette: [
+	       		['black', 'white', 'red'],
+	        	['green', 'yellow', 'purple']
+	    	],
+	   		change: function(color) {
+	 	   		canvas2.setBackgroundColor(color.toHexString().replace('#','0x')); // #ff0000
 	 	   		$('#group-edit-dropdown').dropdown('toggle');
 			}
 		});
