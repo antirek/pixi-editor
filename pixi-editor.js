@@ -210,6 +210,18 @@ var Menu = function (id) {
 
 }
 
+var Panel = function(id){
+
+	var panel = [];
+	panel.push($('<input />', {id: 'slider', type: 'text'}));
+
+	var _construct = function(id){
+
+		$('#view').prepend(panel);
+		$('#slider').slider();
+	}(id);
+
+}
 
 var editor = function(id, width, height){
 
@@ -232,6 +244,7 @@ var editor = function(id, width, height){
 	
 
 	var menu = new Menu(id);
+	var panel = new Panel(id);
 
 
 	var  initButtons = function(){

@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css"  />
-		<link rel="stylesheet" href="lib/spectrum/spectrum.css"  />
-		<!-- link rel="stylesheet" href="lib/bootswatch/readable/bootstrap.css"  //-->
+		<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="lib/spectrum/spectrum.css" />
+		<link rel="stylesheet" href="lib/seiyria-bootstrap-slider/css/bootstrap-slider.css" />
 		
 		<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
 		<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
 		<script type="text/javascript" src="lib/pixi.js/bin/pixi.dev.js"></script>
 		<script type="text/javascript" src="lib/spectrum/spectrum.js"></script>
+		<script type="text/javascript" src="lib/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
 
 		<script type="text/javascript" src="pixi-editor.js"></script>
 		
 		<script type="text/javascript">
+
 		var editor1 = null;
 
 			$(function(){
 
-				editor1 = new editor('view', 600, 300);
-				
+				editor1 = new editor('view', 600, 400);				
 			});
 
 			function image(){
@@ -30,7 +31,9 @@
 
 	<body>
 	<div class="well">
+
 		<div id="view"></div>
+		
 	</div>
 
 	
