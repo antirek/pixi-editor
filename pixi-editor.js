@@ -217,13 +217,29 @@ var editor = function(id, width, height){
 	var Panel = function(id){
 
 		var panel = [];
-		panel.push($('<input />', {id: 'slider', type: 'text'}));
+		panel.push($('<b />', {text: 'Line width '}));
+		panel.push($('<input />', {id: 'linewidth-slider', type: 'text', class: 'col-md-5'}));
+		panel.push($('<br/>'));
+		panel.push($('<b />', {text: 'Line alpha '}));		
+		panel.push($('<input />', {id: 'linealpha-slider', type: 'text'}));
+
 		$('#view').prepend(panel);
 		
-		var slider1 = $('#slider').slider();
+		var lineWidthSlider = $('#linewidth-slider').slider({
+			min: 1, 
+			max: 20,
+			tooltip: 'hide',
+		}).on('slide', function(e){
+			canvas2.setLineWidth(e.value)
+		});
 
-		slider1.on('slide', function(e){
-				canvas2.setLineWidth(e.value)
+		var lineAlphaSlider = $('#linealpha-slider').slider({
+			min: 0.1, 
+			max: 1.0,
+			step: 0.1,
+			tooltip: 'hide',
+		}).on('slide', function(e){
+			canvas2.setLineAlpha(e.value)
 		});
 	
 	}
@@ -247,7 +263,7 @@ var editor = function(id, width, height){
 	
 
 
-	var menu = new Menu(id);
+	//var menu = new Menu(id);
 	var panel = new Panel(id);
 	
 
