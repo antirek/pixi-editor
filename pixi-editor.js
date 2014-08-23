@@ -1,3 +1,4 @@
+'use strict;'
 
 var Canvas = function(id, width, height){
 	
@@ -136,38 +137,59 @@ var Canvas = function(id, width, height){
 
 var editor = function(id, width, height){
 
+	var defaults = {
+		lineColor: '#ffd920',
+		lineWidth: 10,
+		lineAlpha: 1,
+		backgroundColor: '#97c56e',
+	};
+
 	var Panel = function(id){
 
-		var panel = [];
-
-		var initTemplate = function(){
-		
+		var initHeader = function(){			
+			var panel = [];
 			panel.push($('<b />', {text: 'Line width '}));
-			panel.push($('<input />', {id: 'linewidth-slider', type: 'text'}));			
-			panel.push($('<b />', {text: ' alpha '}));		
+			panel.push($('<input />', {id: 'linewidth-slider', type: 'text'}));	
+			panel.push('&nbsp;');panel.push('&nbsp;');panel.push('&nbsp;');
+			panel.push($('<b />', {text: ' Line color '}));
+			panel.push(
+				$('<input/>', {id: 'changeLineColorInput'})
+					.attr('style', 'display:none;')
+				);
+			panel.push($('<br/>'));		
+			panel.push($('<b />', {text: ' Line alpha '}));		
 			panel.push($('<input />', {id: 'linealpha-slider', type: 'text'}));
+			panel.push('&nbsp;');panel.push('&nbsp;');panel.push('&nbsp;');
+			panel.push($('<b />', {text: ' Background color '}));
+			panel.push(
+				$('<input/>', {id: 'changeBackgroundColorInput'})
+					.attr('style', 'display:none;')
+				);
 			panel.push($('<br/>'));
+			return panel;			
+		};
+
+		var initBottom = function(){
+			var panel = [];
+			panel.push('&nbsp;');
 			panel.push(
 				$('<button />', {id: 'save', text: 'save'})
 					.addClass('btn btn-default')
 					.attr('type','button')
 				);
+			panel.push('&nbsp;');
 			panel.push(
 				$('<button />', {id: 'clear', text: 'clear'})
 					.addClass('btn btn-default')
 					.attr('type','button')
 				);
-			panel.push(
-				$('<input/>', {id: 'changeColorInput'})
-					.attr('style', 'display:none;')
-				);
-			panel.push(
-				$('<input/>', {id: 'changeBackgroundColorInput'})
-					.attr('style', 'display:none;')
-				);
-		}();
+			return panel;
+		}
 
-		$('#view').prepend(panel);
+
+		$('#' + id + '_header').prepend(initHeader());
+		$('#' + id + '_bottom').prepend(initBottom());
+
 		
 		var initButtons = function(){
 
@@ -199,8 +221,8 @@ var editor = function(id, width, height){
 				canvas2.clear();
 			});
 
-			$("#changeColorInput").spectrum({
-		   		color: "#ffd920",
+			$("#changeLineColorInput").spectrum({
+		   		color: defaults.lineColor,
 		   		showPalette: true,
 		    	palette: [
 		       		['black', 'white', 'red'],
@@ -211,9 +233,8 @@ var editor = function(id, width, height){
 				}
 			});
 
-
 			$("#changeBackgroundColorInput").spectrum({
-		   		color: "#ffd920",
+		   		color: defaults.backgroundColor,
 		   		showPalette: true,
 		    	palette: [
 		       		['black', 'white', 'red'],
@@ -233,11 +254,12 @@ var editor = function(id, width, height){
 		height: height
 	} 
 
-	var canvas_id = id + '_canvas';
+	
+	$('#'+id).append($('<div />',{id: id + '_header'}));
+	$('#'+id).append($('<div />',{id: id + '_canvas'}));
+	$('#'+id).append($('<div />',{id: id + '_bottom'}));
 
-	$('#'+id).append($('<div />',{id: canvas_id}));
-
-	var canvas2 = new Canvas(canvas_id, canvas_params.width, canvas_params.height);
+	var canvas2 = new Canvas(id + '_canvas', canvas_params.width, canvas_params.height);
 	canvas2.enableDrawMode();
 	
 	var panel = new Panel(id);
