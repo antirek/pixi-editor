@@ -19,7 +19,10 @@
 
 			$(function(){
 
-				editor1 = new editor('view', 600, 400);				
+				editor1 = new editor('view', 600, 400);	
+				editor1.onSave(function(image){					
+					var win = window.open(image);
+				});
 			});
 
 			function image(){

@@ -1,4 +1,4 @@
-'use strict;'
+"use strict";
 
 var Canvas = function(id, width, height){
 	
@@ -137,6 +137,8 @@ var Canvas = function(id, width, height){
 
 var editor = function(id, width, height){
 
+	var onSaveCallback = null;
+
 	var defaults = {
 		lineColor: '#ffd920',
 		lineWidth: 10,
@@ -213,8 +215,7 @@ var editor = function(id, width, height){
 			});
 			
 			$("#save").click(function(){
-				var data = canvas2.getImage();
-				var win = window.open(data);
+				onSaveCallback(canvas2.getImage());
 			});
 
 			$("#clear").click(function(){
@@ -247,6 +248,10 @@ var editor = function(id, width, height){
 
 		}();
 		
+	}
+
+	var onSave = function(callback){
+		onSaveCallback = callback;
 	}	
 
 	var canvas_params = {
@@ -265,6 +270,7 @@ var editor = function(id, width, height){
 	var panel = new Panel(id);
 	
 	return {
-		getImage: canvas2.getImage
+		onSave: onSave,
+		getImage: canvas2.getImage,
 	}
 }
