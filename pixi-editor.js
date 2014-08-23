@@ -151,7 +151,7 @@ var editor = function(id, width, height){
 		var initHeader = function(){			
 			var panel = [];
 			panel.push($('<b />', {text: 'Line width '}));
-			panel.push($('<input />', {id: 'linewidth-slider', type: 'text'}));	
+			panel.push($('<input />', {id: 'lineWidthSlider', type: 'text'}));	
 			panel.push('&nbsp;');panel.push('&nbsp;');panel.push('&nbsp;');
 			panel.push($('<b />', {text: ' Line color '}));
 			panel.push(
@@ -160,7 +160,7 @@ var editor = function(id, width, height){
 				);
 			panel.push($('<br/>'));		
 			panel.push($('<b />', {text: ' Line alpha '}));		
-			panel.push($('<input />', {id: 'linealpha-slider', type: 'text'}));
+			panel.push($('<input />', {id: 'lineAlphaSlider', type: 'text'}));
 			panel.push('&nbsp;');panel.push('&nbsp;');panel.push('&nbsp;');
 			panel.push($('<b />', {text: ' Background color '}));
 			panel.push(
@@ -175,13 +175,13 @@ var editor = function(id, width, height){
 			var panel = [];
 			panel.push('&nbsp;');
 			panel.push(
-				$('<button />', {id: 'save', text: 'save'})
+				$('<button />', {id: 'saveButton', text: 'save'})
 					.addClass('btn btn-default')
 					.attr('type','button')
 				);
 			panel.push('&nbsp;');
 			panel.push(
-				$('<button />', {id: 'clear', text: 'clear'})
+				$('<button />', {id: 'clearButton', text: 'clear'})
 					.addClass('btn btn-default')
 					.attr('type','button')
 				);
@@ -189,13 +189,13 @@ var editor = function(id, width, height){
 		}
 
 
-		$('#' + id + '_header').prepend(initHeader());
-		$('#' + id + '_bottom').prepend(initBottom());
+		$('#' + id + 'Header').prepend(initHeader());
+		$('#' + id + 'Bottom').prepend(initBottom());
 
 		
 		var initButtons = function(){
 
-			$('#linewidth-slider').slider({
+			$('#lineWidthSlider').slider({
 				min: 1, 
 				max: 20,
 				tooltip: 'hide',
@@ -204,7 +204,7 @@ var editor = function(id, width, height){
 				canvas2.setLineWidth(e.value)
 			});
 
-			$('#linealpha-slider').slider({
+			$('#lineAlphaSlider').slider({
 				min: 0.1, 
 				max: 1.0,
 				step: 0.1,
@@ -214,11 +214,11 @@ var editor = function(id, width, height){
 				canvas2.setLineAlpha(e.value)
 			});
 			
-			$("#save").click(function(){
+			$("#saveButton").click(function(){
 				onSaveCallback(canvas2.getImage());
 			});
 
-			$("#clear").click(function(){
+			$("#clearButton").click(function(){
 				canvas2.clear();
 			});
 
@@ -254,17 +254,17 @@ var editor = function(id, width, height){
 		onSaveCallback = callback;
 	}	
 
-	var canvas_params = {
+	var canvasSettings = {
 		width: width,
 		height: height
 	} 
 
 	
-	$('#'+id).append($('<div />',{id: id + '_header'}));
-	$('#'+id).append($('<div />',{id: id + '_canvas'}));
-	$('#'+id).append($('<div />',{id: id + '_bottom'}));
+	$('#'+id).append($('<div />',{id: id + 'Header', style: 'margin: 3px;'}));
+	$('#'+id).append($('<div />',{id: id + 'Canvas'}));
+	$('#'+id).append($('<div />',{id: id + 'Bottom'}));
 
-	var canvas2 = new Canvas(id + '_canvas', canvas_params.width, canvas_params.height);
+	var canvas2 = new Canvas(id + 'Canvas', canvasSettings.width, canvasSettings.height);
 	canvas2.enableDrawMode();
 	
 	var panel = new Panel(id);
