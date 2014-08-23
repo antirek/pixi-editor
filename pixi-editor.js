@@ -68,6 +68,10 @@ var Canvas = function(id, width, height){
 		lineWidth = width;
 	}
 
+	var getLineWidth = function(){
+		return lineWidth;
+	}
+
 	var setBackgroundColor = function(color){
 		stage.setBackgroundColor(color);
 	}
@@ -79,6 +83,10 @@ var Canvas = function(id, width, height){
 
 	var setLineAlpha = function(alpha){
 		lineAlpha = alpha;
+	}
+
+	var getLineAlpha = function(){
+		return lineAlpha;
 	}
 
 	var getImage = function(){
@@ -112,103 +120,17 @@ var Canvas = function(id, width, height){
 		enableDrawMode: enableDrawMode,
 		disableDrawMode: disableDrawMode,
 		setLineWidth: setLineWidth,
+		getLineWidth: getLineWidth,
 		setBackgroundColor: setBackgroundColor,
 		setLineColor: setLineColor,
 		setLineAlpha: setLineAlpha,
+		getLineAlpha: getLineAlpha,
 		getImage: getImage,
 		stage: stage,
 		clear: clear,
 	};
 };
 
-var Menu = function (id) {
-
-	var buttons = {
-		line:[
-			$('<button />', {text: 'line '})
-				.addClass('btn btn-default dropdown-toggle')
-				.attr('data-toggle', 'dropdown')
-				.attr('type', 'button')
-				.append([
-					$('<span />').addClass('caret'),
-					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
-				]),
-			
-			$('<ul />', {id: 'group-line-dropdown'}).addClass('dropdown-menu').append([
-				$('<li />', {text: 'Width'}).addClass('dropdown-header'),
-				$('<li />').append($('<a/>', {text: '3px', id: 'change3px'})),
-				$('<li />').append($('<a/>', {text: '5px', id: 'change5px'})),
-				$('<li />').append($('<a/>', {text: '10px', id: 'change10px'})),
-				
-				$('<li />').addClass('divider'),
-				$('<li />', {text: 'Color'}).addClass('dropdown-header'),
-				$('<li />').append(
-					$('<span/>')
-						.addClass('col-md-offset-2')
-						.append(
-							$('<input/>', {id: 'changeColorInput'})
-							.attr('style', 'display:none;'))
-					),
-				
-				$('<li />').addClass('divider'),
-				$('<li />', {text: 'Alpha'}).addClass('dropdown-header'),
-				$('<li />').append($('<a/>', {text: '0.2', id: 'change02'})),
-				$('<li />').append($('<a/>', {text: '0.5', id: 'change05'})),
-				$('<li />').append($('<a/>', {text: '1', id: 'change1'})),
-				
-				]),			
-			],
-
-		background: [
-			$('<button />', {text: 'background '})
-				.addClass('btn btn-default dropdown-toggle')
-				.attr('data-toggle', 'dropdown')
-				.attr('type', 'button')
-				.append([
-					$('<span />').addClass('caret'),
-					$('<span />', {text: 'Toggle Dropdown'}).addClass('sr-only')
-				]),
-			$('<ul />', {id: 'group-background-dropdown'}).addClass('dropdown-menu').append([
-				$('<li />', {text: 'Background Color'}).addClass('dropdown-header'),
-				$('<li />').append(
-					$('<span/>')
-						.addClass('col-md-offset-2')
-						.append(
-							$('<input/>', {id: 'changeBackgroundColorInput'})
-							.attr('style', 'display:none;'))
-					),
-				]),
-			],
-
-
-		save: [
-			$('<button />', {id: 'save', text: 'save'})
-				.addClass('btn btn-default')
-				.attr('type','button'),
-			],
-
-		clear: [
-			$('<button />', {id: 'clear', text: 'clear'})
-				.addClass('btn btn-default')
-				.attr('type','button'),
-			],	
-		};
-
-	var menu = [];
-	menu.push($('<div />', {id:'group-line'}).addClass('btn-group').append(buttons.line));
-	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'group-background'}).addClass('btn-group').append(buttons.background));
-	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'group-save'}).addClass('btn-group').append(buttons.save));
-	menu.push('&nbsp;');
-	menu.push($('<div />', {id:'group-clear'}).addClass('btn-group').append(buttons.clear));
-
-
-	var _construct = function(id){
-		$('#view').prepend(menu);
-	}(id);
-
-}
 
 
 
@@ -217,41 +139,98 @@ var editor = function(id, width, height){
 	var Panel = function(id){
 
 		var panel = [];
-		panel.push($('<b />', {text: 'Line width '}));
-		panel.push($('<input />', {id: 'linewidth-slider', type: 'text', class: 'col-md-5'}));
-		panel.push($('<br/>'));
-		panel.push($('<b />', {text: 'Line alpha '}));		
-		panel.push($('<input />', {id: 'linealpha-slider', type: 'text'}));
+
+		var initTemplate = function(){
+		
+			panel.push($('<b />', {text: 'Line width '}));
+			panel.push($('<input />', {id: 'linewidth-slider', type: 'text'}));			
+			panel.push($('<b />', {text: ' alpha '}));		
+			panel.push($('<input />', {id: 'linealpha-slider', type: 'text'}));
+			panel.push($('<br/>'));
+			panel.push(
+				$('<button />', {id: 'save', text: 'save'})
+					.addClass('btn btn-default')
+					.attr('type','button')
+				);
+			panel.push(
+				$('<button />', {id: 'clear', text: 'clear'})
+					.addClass('btn btn-default')
+					.attr('type','button')
+				);
+			panel.push(
+				$('<input/>', {id: 'changeColorInput'})
+					.attr('style', 'display:none;')
+				);
+			panel.push(
+				$('<input/>', {id: 'changeBackgroundColorInput'})
+					.attr('style', 'display:none;')
+				);
+		}();
 
 		$('#view').prepend(panel);
 		
-		var lineWidthSlider = $('#linewidth-slider').slider({
-			min: 1, 
-			max: 20,
-			tooltip: 'hide',
-		}).on('slide', function(e){
-			canvas2.setLineWidth(e.value)
-		});
+		var initButtons = function(){
 
-		var lineAlphaSlider = $('#linealpha-slider').slider({
-			min: 0.1, 
-			max: 1.0,
-			step: 0.1,
-			tooltip: 'hide',
-		}).on('slide', function(e){
-			canvas2.setLineAlpha(e.value)
-		});
-	
-	}
+			$('#linewidth-slider').slider({
+				min: 1, 
+				max: 20,
+				tooltip: 'hide',
+				value: canvas2.getLineWidth(),
+			}).on('slide', function(e){
+				canvas2.setLineWidth(e.value)
+			});
 
-	var menu_params = {
-		width: '100%',
-		height: '40'
-	}
+			$('#linealpha-slider').slider({
+				min: 0.1, 
+				max: 1.0,
+				step: 0.1,
+				tooltip: 'hide',
+				value: canvas2.getLineAlpha(),
+			}).on('slide', function(e){
+				canvas2.setLineAlpha(e.value)
+			});
+			
+			$("#save").click(function(){
+				var data = canvas2.getImage();
+				var win = window.open(data);
+			});
+
+			$("#clear").click(function(){
+				canvas2.clear();
+			});
+
+			$("#changeColorInput").spectrum({
+		   		color: "#ffd920",
+		   		showPalette: true,
+		    	palette: [
+		       		['black', 'white', 'red'],
+		        	['green', 'yellow', 'purple']
+		    	],
+		   		change: function(color) {
+		 	   		canvas2.setLineColor(color.toHexString().replace('#','0x'));
+				}
+			});
+
+
+			$("#changeBackgroundColorInput").spectrum({
+		   		color: "#ffd920",
+		   		showPalette: true,
+		    	palette: [
+		       		['black', 'white', 'red'],
+		        	['green', 'yellow', 'purple']
+		    	],
+		   		change: function(color) {
+		 	   		canvas2.setBackgroundColor(color.toHexString().replace('#','0x'));
+				}
+			});
+
+		}();
+		
+	}	
 
 	var canvas_params = {
 		width: width,
-		height: height - menu_params.height
+		height: height
 	} 
 
 	var canvas_id = id + '_canvas';
@@ -261,89 +240,8 @@ var editor = function(id, width, height){
 	var canvas2 = new Canvas(canvas_id, canvas_params.width, canvas_params.height);
 	canvas2.enableDrawMode();
 	
-
-
-	//var menu = new Menu(id);
 	var panel = new Panel(id);
 	
-
-
-
-	var  initButtons = function(){
-
-		$("#drawButton").click(function(){
-			if($(this).hasClass('active')){
-				canvas2.disableDrawMode();
-				$(this).removeClass('active');
-			}else{
-				canvas2.enableDrawMode();
-				$(this).addClass('active');
-			}
-		})
-
-		$("#change3px").click(function(){
-			canvas2.setLineWidth('3');
-		});
-
-		$("#change5px").click(function(){
-			canvas2.setLineWidth('5');
-		});
-
-		$("#change10px").click(function(){
-			canvas2.setLineWidth('10');
-		});
-
-		$("#change02").click(function(){
-			canvas2.setLineAlpha('0.2');
-		});
-
-		$("#change05").click(function(){
-			canvas2.setLineAlpha('0.5');
-		});
-
-		$("#change1").click(function(){
-			canvas2.setLineAlpha('1');
-		});
-
-		$("#save").click(function(){
-			var data = canvas2.getImage();
-			var win = window.open(data);
-		});
-
-		$("#clear").click(function(){
-			canvas2.clear();
-		});
-
-
-		$("#changeColorInput").spectrum({
-	   		color: "#ffd920",
-	   		showPalette: true,
-	    	palette: [
-	       		['black', 'white', 'red'],
-	        	['green', 'yellow', 'purple']
-	    	],
-	   		change: function(color) {
-	 	   		canvas2.setLineColor(color.toHexString().replace('#','0x')); // #ff0000
-	 	   		$('#group-line-dropdown').dropdown('toggle');
-			}
-		});
-
-
-		$("#changeBackgroundColorInput").spectrum({
-	   		color: "#ffd920",
-	   		showPalette: true,
-	    	palette: [
-	       		['black', 'white', 'red'],
-	        	['green', 'yellow', 'purple']
-	    	],
-	   		change: function(color) {
-	 	   		canvas2.setBackgroundColor(color.toHexString().replace('#','0x')); // #ff0000
-	 	   		$('#group-background-dropdown').dropdown('toggle');
-			}
-		});
-
-	}();
-
 	return {
 		getImage: canvas2.getImage
 	}
