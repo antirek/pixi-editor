@@ -10,16 +10,15 @@ Main idea of project: use **pixi-editor** as component in your project
 
 Install
 =======
- 1. Run command
+- Run command
 ``````
 $ bower install pixi-editor [--save]
 //add pixi-editor with dependencies in bower_components folder
 ``````
 
- 2. Check work
- 
-  a. Copy file **index.html** from **bower_components/pixi-editor/examples** to folder of your project
-  b. Open in browser index.html (you must see editor like demo: http://antirek.github.io/pixi-editor)
+- Check work
+
+Copy file **index.html** from **bower_components/pixi-editor/examples** to folder of your project and open it in browser (you must see editor like demo: http://antirek.github.io/pixi-editor)
 
 
 How add in your project?
