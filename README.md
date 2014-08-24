@@ -12,7 +12,7 @@ Install
 =======
  1. Run command
 ``````
-$ bower install pixi-editor //add pixi-editor in bower_components folder
+$ bower install pixi-editor //add pixi-editor with dependencies in bower_components folder
 ``````
 
  2. Check work
