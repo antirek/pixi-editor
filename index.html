@@ -12,32 +12,41 @@
 		<script type="text/javascript" src="lib/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
 
 		<script type="text/javascript" src="pixi-editor.js"></script>
-		
+		<style>
+		/* Customize container */
+		@media (min-width: 768px) {
+		  .container {
+		    max-width: 730px;
+		  }
+		}
+		</style>
 		<script type="text/javascript">
 
-		var editor1 = null;
+			var editor1 = null;
 
 			$(function(){
 
-				editor1 = new editor('view', 600, 400);	
+				editor1 = new editor('view', 650, 400);	
 				editor1.onSave(function(image){					
 					var win = window.open(image);
 				});
-				
-			});
 
-			function image(){
-				console.log(editor1.getImage());
-			}
+			});			
 
 		</script>
 	</head>
 
 	<body>
+	<div class="container">
 
-		<div id="view"></div>
+		<div class="header">
+			<h3>pixi-editor.js</h3>
+		</div>
+
+		<div class="well" id="view">			
+		</div>
 		
 
-	
+	</div>
 	</body>
 </html>
