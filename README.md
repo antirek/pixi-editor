@@ -23,7 +23,7 @@ Copy file **index.html** from **bower_components/pixi-editor/examples** to folde
 
 How add in your project?
 ========================
-Please, view detail in index.html
+Please, view detail in index.html (https://github.com/antirek/pixi-editor/blob/master/examples/index.html)
 
 1. Add *.js and *.css files to head section of your page (like in index.html)
 2. Add `````<div id="view"></div>````` to body section of your page
