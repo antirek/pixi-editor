@@ -26,7 +26,7 @@ var editor = function(id, width, height){
 		var lineWidth = '10';
 		var lineColor = '0xffd920';
 		var lineDrawingColor = '0xffd920';
-		var lineAlpha = '1';
+		var lineAlpha = '0.5';
 		
 		var enableDrawMode = function(){
 			
@@ -202,9 +202,9 @@ var editor = function(id, width, height){
 			});
 
 			$('#lineAlphaSlider').slider({
-				min: 0.1, 
+				min: 0.05, 
 				max: 1.0,
-				step: 0.1,
+				step: 0.05,
 				tooltip: 'hide',
 				value: canvas.getLineAlpha(),
 			}).on('slide', function(e){
