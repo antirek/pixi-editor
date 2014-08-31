@@ -2,6 +2,8 @@
 
 var editor = function(id, width, height){
 
+	var version = '0.0.2';
+
 	var onSaveCallback = null;
 
 	var defaults = {
@@ -22,11 +24,12 @@ var editor = function(id, width, height){
 
 		var graphics = new PIXI.Graphics();
 		var liveGraphics = new PIXI.Graphics();
+		liveGraphics.setInteractive(true);
 
 		var lineWidth = '10';
 		var lineColor = '0xffd920';
 		var lineDrawingColor = '0xffd920';
-		var lineAlpha = '0.5';
+		var lineAlpha = '0.7';
 		
 		var enableDrawMode = function(){
 			
@@ -45,19 +48,21 @@ var editor = function(id, width, height){
 			    drawing = true;
 			};
 
-			stage.mousemove = stage.touchmove = function(e) {
+			liveGraphics.mousemove = liveGraphics.touchmove = function(e) {
 				if(!drawing){return}
 				var position = e.global;
 				path.push(parseInt(position.x));
 				path.push(parseInt(position.y));
 			};
 
-			stage.mouseup = stage.touchend = function(e){
+			stage.mouseup = stage.touchend = 
+			stage.mouseupoutside = stage.touchendoutside = 
+			function(e){
 				drawing = false;
 				graphics.lineStyle(lineWidth, lineColor, lineAlpha);
 				graphics.drawPath(path);
 				path = [];
-			}
+			}			
 		}
 
 		var dropDrawEvents = function(){
