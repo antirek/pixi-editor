@@ -1,7 +1,7 @@
 {
   "name": "pixi-editor",
   "main": "pixi-editor.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "authors": [
     "sergey <serge.dmitriev@gmail.com>"
   ],

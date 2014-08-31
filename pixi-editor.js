@@ -2,6 +2,8 @@
 
 var editor = function(id, width, height){
 
+	var version = '0.0.2';
+
 	var onSaveCallback = null;
 
 	var defaults = {
