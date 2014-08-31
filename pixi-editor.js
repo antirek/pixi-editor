@@ -52,12 +52,14 @@ var editor = function(id, width, height){
 				path.push(parseInt(position.y));
 			};
 
-			stage.mouseup = stage.touchend = function(e){
+			stage.mouseup = stage.touchend = 
+			stage.mouseupoutside = stage.touchendoutside = 
+			function(e){
 				drawing = false;
 				graphics.lineStyle(lineWidth, lineColor, lineAlpha);
 				graphics.drawPath(path);
 				path = [];
-			}
+			}			
 		}
 
 		var dropDrawEvents = function(){
